@@ -1,0 +1,22 @@
+// array of student's objects
+const students = [
+    {name: 'Chidimma', age: 20, grade: 'A'},
+    {name: 'Isaac', age: 19, grade: 'B'},
+    {name: 'Daniel', age: 22, grade: 'A'},
+    {name: 'faith', age: 21, grade: 'C'},
+    {name: 'joy', age: 22, grade: 'B'},
+]
+// Function to filter students by grade 
+function filterByGrade(students, grade) {
+    return students.filter(student => student.grade === grade);
+}
+
+// Function to calculate the average age of students
+function averageAge(students) {
+    const totalAge = students.reduce((sum, student) => sum + student.age, 0);
+    return students.length ? totalAge / students.length : onabort;
+}
+const avgAge = averageAge(students);
+console.log('average age of students:', avgAge.toFixed(2))
+
+//average age of students: 20.80
