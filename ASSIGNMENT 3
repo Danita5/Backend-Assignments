@@ -1,0 +1,97 @@
+// Class Book
+class Book {
+    constructor(title, author, isbn) {
+        this.title = title;
+        this.author = author;
+        this._isbn = isbn;  // Private ISBN
+        this.available = true; // Default to true
+    }
+
+    // Getter and Setter for ISBN
+    get isbn() {
+        return this._isbn;
+    }
+
+    set isbn(newIsbn) {
+        console.log('ISBN cannot be changed directly.');
+    }
+
+    // Method to borrow a book
+    borrowBook() {
+        if (this.available) {
+            this.available = false;
+            console.log(`You have borrowed "${this.title}".`);
+        } else {
+            console.log(`"${this.title}" is currently not available.`);
+        }
+    }
+
+    // Method to return a book
+    returnBook() {
+        this.available = true;
+        console.log(`You have returned "${this.title}".`);
+    }
+}
+
+// Class Library
+class Library {
+    constructor() {
+        this.books = [];
+    }
+
+    // Add a new book to the library
+    addBook(book) {
+        this.books.push(book);
+        console.log(`"${book.title}" has been added to the library.`);
+    }
+
+    // Remove a book by its ISBN
+    removeBook(isbn) {
+        this.books = this.books.filter(book => book.isbn !== isbn);
+        console.log(`Book with ISBN: ${isbn} has been removed from the library.`);
+    }
+
+    // Find a book by title
+    findBookByTitle(title) {
+        const book = this.books.find(book => book.title === title);
+        if (book) {
+            return book;
+        } else {
+            console.log(`Book titled "${title}" not found.`);
+        }
+    }
+}
+
+// Class DigitalLibrary inheriting from Library
+class DigitalLibrary extends Library {
+    constructor() {
+        super(); // Inherit properties from Library
+    }
+
+    // Method to download a book if it's available
+    downloadBook(isbn) {
+        const book = this.books.find(book => book.isbn === isbn);
+        if (book && book.available) {
+            console.log(`You are downloading "${book.title}".`);
+        } else if (book && !book.available) {
+            console.log(`"${book.title}" is currently not available for download.`);
+        } else {
+            console.log(`No book found with ISBN: ${isbn}.`);
+        }
+    }
+}
+
+// Example usage:
+const book = new Book('Human Anatomy', 'B D ', '9789388902755');
+const library = new Library();
+library.addBook(book);
+book.borrowBook();
+book.returnBook();
+console.log(library.findBookByTitle('Human Anatomy'));
+
+const digitalLibrary = new DigitalLibrary();
+digitalLibrary.addBook(book);
+digitalLibrary.downloadBook('9789388902755');
+book.borrowBook();
+digitalLibrary.downloadBook('9789388902755');
+book.isbn = '999999'; // Should print a message that ISBN cannot be changed.
